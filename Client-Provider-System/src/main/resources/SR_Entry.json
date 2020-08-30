@@ -1,0 +1,214 @@
+{
+  "Factory": "Fischer-Technik",
+  "Services":[
+    {
+      "ServiceDef": "I1 Push-button slider 1 front",
+      "MetaData": {
+        "Device": "Sensor",
+        "DeviceType": "pushbutton",
+        "Location": "Loading",
+        "Instance": "One",
+        "Sensortype": "BKSensorType1",
+        "sID": "id5671"
+      }
+    },
+    {
+      "ServiceDef": "I2 Push-button slider 1 rear",
+      "MetaData": {
+        "Device": "Sensor",
+        "DeviceType": "pushbutton",
+        "Location": "Loading",
+        "Instance": "Two",
+        "Sensortype": "BKSensorType1",
+        "sID": "id5803"
+      }
+    },
+    {
+      "ServiceDef": "I3 Push-button slider 2 front",
+      "MetaData": {
+        "Device": "Sensor",
+        "DeviceType": "pushbutton",
+        "Location": "OffLoading",
+        "Instance": "One",
+        "Sensortype": "BKSensorType1",
+        "sID": "id9935"
+      }
+    },
+    {
+      "ServiceDef": "I4 Push-button slider 2 rear",
+      "MetaData": {
+        "Device": "Sensor",
+        "DeviceType": "pushbutton",
+        "Location": "OffLoading",
+        "Instance": "Two",
+        "Sensortype": "BKSensorType1",
+        "sID": "id9995"
+      }
+    },
+    {
+      "ServiceDef": "I5 Phototransistor slider 1",
+      "MetaData": {
+        "Device": "Sensor",
+        "DeviceType": "PhotoTransistor",
+        "Location": "Loading",
+        "Instance": "Two",
+        "Sensortype": "BKSensorType2",
+        "sID": "id2531"
+      }
+    },
+    {
+      "ServiceDef": "I6 Phototransistor milling machine",
+      "MetaData": {
+        "Device": "Sensor",
+        "DeviceType": "PhotoTransistor",
+        "Location": "Milling",
+        "Instance": "One",
+        "Sensortype": "BKSensorType2",
+        "sID": "id763"
+      }
+    },
+    {
+      "ServiceDef": "I7 Phototransistor loading station",
+      "MetaData": {
+        "Device": "Sensor",
+        "DeviceType": "PhotoTransistor",
+        "Location": "Loading",
+        "Instance": "One",
+        "Sensortype": "BKSensorType2",
+        "sID": "id163"
+      }
+    },
+    {
+      "ServiceDef": "I8 Phototransistor drilling station",
+      "MetaData": {
+        "Device": "Sensor",
+        "DeviceType": "PhotoTransistor",
+        "Location": "Drilling",
+        "Instance": "One",
+        "Sensortype": "BKSensorType2",
+        "sID": "id1975"
+      }
+    },
+    {
+      "ServiceDef": "I9 Phototransistor conveyor belt swap",
+      "MetaData": {
+        "Device": "Sensor",
+        "DeviceType": "PhotoTransistor",
+        "Location": "OffLoading",
+        "Instance": "One",
+        "Sensortype": "BKSensorType2",
+        "sID": "id2747"
+      }
+    },
+    {
+      "ServiceDef": "Q1 Motor slider 1 forward",
+      "MetaData": {
+        "Device": "Actuator",
+        "DeviceType": "Slider",
+        "Location": "Loading",
+        "Instance": "Two",
+        "Sensortype": "NA",
+        "sID": "NA"
+      }
+    },
+    {
+      "ServiceDef": "Q2 Motor slider 1 backward",
+      "MetaData": {
+        "Device": "Actuator",
+        "DeviceType": "Slider",
+        "Location": "Loading",
+        "Instance": "One",
+        "Sensortype": "NA",
+        "sID": "NA"
+      }
+    },
+    {
+      "ServiceDef": "Q3 Motor slider 2 forward",
+      "MetaData": {
+        "Device": "Actuator",
+        "DeviceType": "Slider",
+        "Location": "OffLoading",
+        "Instance": "Two",
+        "Sensortype": "NA",
+        "sID": "NA"
+      }
+    },
+    {
+      "ServiceDef": "Q4 Motor slider 2 backward",
+      "MetaData": {
+        "Device": "Actuator",
+        "DeviceType": "Slider",
+        "Location": "OffLoading",
+        "Instance": "One",
+        "Sensortype": "NA",
+        "sID": "NA"
+      }
+    },
+    {
+      "ServiceDef": "Q5 Motor conveyor belt feed",
+      "MetaData": {
+        "Device": "Actuator",
+        "DeviceType": "ConveyorBelt",
+        "Location": "Loading",
+        "Instance": "One",
+        "Sensortype": "NA",
+        "sID": "NA"
+      }
+    },
+    {
+      "ServiceDef": "Q6 Motor conveyor belt milling machine",
+      "MetaData": {
+        "Device": "Actuator",
+        "DeviceType": "ConveyorBelt",
+        "Location": "Milling",
+        "Instance": "One",
+        "Sensortype": "NA",
+        "sID": "NA"
+      }
+    },
+    {
+      "ServiceDef": "Q7 Motor milling machine",
+      "MetaData": {
+        "Device": "Actuator",
+        "DeviceType": "Motor",
+        "Location": "Milling",
+        "Instance": "One",
+        "Sensortype": "NA",
+        "sID": "NA"
+      }
+    },
+    {
+      "ServiceDef": "Q8 Motor conveyor belt drilling machine",
+      "MetaData": {
+        "Device": "Actuator",
+        "DeviceType": "ConveyorBelt",
+        "Location": "Drilling",
+        "Instance": "One",
+        "Sensortype": "NA",
+        "sID": "NA"
+      }
+    },
+    {
+      "ServiceDef": "Q9 Motor drilling machine",
+      "MetaData": {
+        "Device": "Actuator",
+        "DeviceType": "Motor",
+        "Location": "Drilling",
+        "Instance": "One",
+        "Sensortype": "NA",
+        "sID": "NA"
+      }
+    },
+    {
+      "ServiceDef": "Q10 Motor conveyor belt swap",
+      "MetaData": {
+        "Device": "Actuator",
+        "DeviceType": "ConveyorBelt",
+        "Location": "OffLoading",
+        "Instance": "One",
+        "Sensortype": "NA",
+        "sID": "NA"
+      }
+    }
+  ]
+}
