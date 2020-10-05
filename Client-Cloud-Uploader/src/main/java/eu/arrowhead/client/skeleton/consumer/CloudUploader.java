@@ -126,8 +126,8 @@ public class CloudUploader implements ApplicationRunner {
 				 JotneserviceUri= "/" + proj + "/" + SerialID + "/" + prop;
 
 				//-------------------------SENDING PAYLOAD TO JOTNE API--------------------------------------------//
-				JotneSendSensorData("trueplm-add-sensor-data-sevice",TruePLMPayload, JotneserviceUri);
-				JotneGetSensorData("trueplm-get-sensor-data-sevice", JotneserviceUri);
+				JotneSendSensorData("trueplm-add-sensor-data-service",TruePLMPayload, JotneserviceUri);
+				JotneGetSensorData("trueplm-get-sensor-data-service", JotneserviceUri);
 
 				//-------------CREATING INDIVISUAL SENML PAYLOAD FOR LOGGING DATA INTO DATAMANAGER-----------------------//
 				SenMLbase=SenMLbase+getPayload(consumedReadService);
@@ -154,7 +154,7 @@ public class CloudUploader implements ApplicationRunner {
 
 		String DMPayload= "[\n" +SenMLbase+"]";
 		DMPayload= DMPayload.replace("  },\n" + "]", "  }\n" + "]");
-		DMService(ServiceDef, DMPayload);
+		//DMService(ServiceDef, DMPayload);
 		//System.out.println(DMPayload);
 	}
 	//-----------------------SENDING SENSOR AND ACTUATOR DATA TO DATA MANAGER----------------------------------//
@@ -191,7 +191,7 @@ public class CloudUploader implements ApplicationRunner {
 		return n;
 	}
 	public void JotneSendSensorData(String JotneServicedef, String Payload, String JotneserviceUri){
-		List<OrchestrationResultDTO> response = orchestrate(JotneServicedef, true);
+		List<OrchestrationResultDTO> response = dynamicorchestrate(JotneServicedef, true);
 		OrchestrationResultDTO result= response.get(0);
 		Map<String, String> meta = result.getMetadata();
 		HttpMethod httpMethod= HttpMethod.POST;
@@ -210,7 +210,7 @@ public class CloudUploader implements ApplicationRunner {
 	}
 
 	public void JotneGetSensorData(String JotneServicedef, String JotneserviceUri){
-		List<OrchestrationResultDTO> response = orchestrate(JotneServicedef, true);
+		List<OrchestrationResultDTO> response = dynamicorchestrate(JotneServicedef, true);
 		OrchestrationResultDTO result= response.get(0);
 		Map<String, String> meta = result.getMetadata();
 		HttpMethod httpMethod= HttpMethod.GET;
@@ -294,9 +294,41 @@ public class CloudUploader implements ApplicationRunner {
 			System.out.println("Service response: " + consumedReadService);
 		}
 	}
-
-	/*--------------------Orchestration using ServiceDefinition-------------------------*/
+	
+	/*--------------------Store Orchestration using ServiceDefinition with-------------------------*/
 	public List<OrchestrationResultDTO> orchestrate(String serviceDefinition, boolean flag) {
+		final Builder orchestrationFormBuilder = arrowheadService.getOrchestrationFormBuilder();
+		final List<String> interfaceReq= new ArrayList<String>();
+		interfaceReq.add("HTTP-SECURE-JSON");
+		final ServiceQueryFormDTO requestedService = new ServiceQueryFormDTO();
+		requestedService.setServiceDefinitionRequirement(serviceDefinition);
+		requestedService.setInterfaceRequirements(interfaceReq);
+
+		orchestrationFormBuilder.requestedService(requestedService)
+				//.flag(Flag.MATCHMAKING, true) //When this flag is false or not specified, then the orchestration response cloud contain more proper provider. Otherwise only one will be chosen if there is any proper.
+				.flag(Flag.OVERRIDE_STORE, false) //When this flag is false or not specified, then a Store Orchestration will be proceeded. Otherwise a Dynamic Orchestration will be proceeded.
+				.flag(Flag.TRIGGER_INTER_CLOUD, flag); //When this flag is false or not specified, then orchestration will not look for providers in the neighbor clouds, when there is no proper provider in the local cloud. Otherwise it will.
+
+		final OrchestrationFormRequestDTO orchestrationRequest = orchestrationFormBuilder.build();
+
+		OrchestrationResponseDTO response = null;
+		try {
+			response = arrowheadService.proceedOrchestration(orchestrationRequest);
+		} catch(final ArrowheadException ex) {
+			//Handle the unsuccessful request as you wish!
+		}
+		if(response ==null||response.getResponse().isEmpty()) {
+			//If no proper providers found during the orchestration process, then the response list will be empty. Handle the case as you wish!
+			System.out.println("FATAL ERROR: Orchestration response came back empty. Make sure the Service you try to consume is in the Service Registry and that the Consumer has the privileges to consume this Service (e.g. check intra_cloud_authorization and intra_cloud_interface_connection).");
+			System.exit(1);
+		}
+
+		final List<OrchestrationResultDTO> result = response.getResponse(); //Simplest way of choosing a provider.
+		return result;
+	}
+
+	/*--------------------Dyanamic Orchestration using ServiceDefinition-------------------------*/
+	public List<OrchestrationResultDTO> dynamicorchestrate(String serviceDefinition, boolean flag) {
 		final Builder orchestrationFormBuilder = arrowheadService.getOrchestrationFormBuilder();
 
 		final ServiceQueryFormDTO requestedService = new ServiceQueryFormDTO();
@@ -316,11 +348,11 @@ public class CloudUploader implements ApplicationRunner {
 			//Handle the unsuccessful request as you wish!
 		}
 
-		/*if(response ==null||response.getResponse().isEmpty()) {
+		if(response ==null||response.getResponse().isEmpty()) {
 			//If no proper providers found during the orchestration process, then the response list will be empty. Handle the case as you wish!
 			System.out.println("FATAL ERROR: Orchestration response came back empty. Make sure the Service you try to consume is in the Service Registry and that the Consumer has the privileges to consume this Service (e.g. check intra_cloud_authorization and intra_cloud_interface_connection).");
 			System.exit(1);
-		}*/
+		}
 
 		final List<OrchestrationResultDTO> result = response.getResponse(); //Simplest way of choosing a provider.
 		return result;
