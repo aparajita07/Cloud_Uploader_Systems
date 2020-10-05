@@ -40,29 +40,35 @@ public class OPCUAInteractions {
     }
 
 
-    public static List<String> readNode(OpcUaClient client, NodeId nodeId) {
+   public static List<String> readNode(OpcUaClient client, NodeId nodeId) {
+        List<String> returnObj = new ArrayList<String>();
         String val = "";
-        List<String> returnString=new ArrayList<String>(2);
+        String returnString="";
+        long t;
+        String returntime="";
         try {
             VariableNode node = client.getAddressSpace().createVariableNode(nodeId);
             DataValue value = node.readValue().get();
-            Long time= System.currentTimeMillis();
-            System.out.println("Full node info: " + value);
-            System.out.println("Server Time: " + time.toString());
-            /*CompletableFuture<DataValue> test = client.readValue(0.0, TimestampsToReturn.Both, nodeId);
-            DataValue data = test.get();*/
-            System.out.println("nodeId Object: " + nodeId.toString());
-            System.out.println("value: " + value.getValue().getValue());
 
-            returnString.add(value.getValue().getValue().toString());
-            returnString.add(time.toString());
 
+            CompletableFuture<DataValue> test = client.readValue(0.0, TimestampsToReturn.Both, nodeId);
+            DataValue data = test.get();
+            System.out.println("DataValue Object: " + data);
+            val = data.getValue().toString();
+            returnString = val.replace("Variant{value=","").replace("}", "");
+
+            t= data.getServerTime().getJavaTime()/1000;
+            returntime=Long.toString(t);
+            System.out.println("java time is: " + t);
+
+            returnObj.add(returnString);
+            returnObj.add(returntime);
+            System.out.println("return object value time pair is: "+returnObj);
         } catch (Exception e) {
             System.out.println("ERROR: " + e.toString());
         }
-        return returnString;
+        return returnObj;
     }
-
 
     public static CompletableFuture<StatusCode> writeNode2(
             final OpcUaClient client,
