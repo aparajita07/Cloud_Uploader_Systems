@@ -85,15 +85,16 @@ public class ProviderApplicationInitListener extends ApplicationInitListener {
 	@Value(ClientCommonConstants.$CLIENT_SERVER_PORT_WD)
 	private int mySystemPort;
 
-	/*@Value("${opc.ua.connection_address}")
+	@Value("${opc.ua.connection_address}")
 	private String opcuaServerAddress;
 
 	@Value("${opc.ua.root_node_namespace}")
 	private int rootNodeNamespaceIndex;
 
 	@Value("${opc.ua.root_node_identifier}")
-	private String rootNodeIdentifier;*/
-
+	private String rootNodeIdentifier;
+	protected UaClient client;
+	public List<String> nodevalue= new ArrayList<>();
 
 	private final Logger logger = LogManager.getLogger(ProviderApplicationInitListener.class);
 	
@@ -114,6 +115,83 @@ public class ProviderApplicationInitListener extends ApplicationInitListener {
 		}
 
 		setTokenSecurityFilter();
+		
+		//-----STARTING SUBSCRIPTION------------------------//
+		/*opcuaServerAddress = opcuaServerAddress.replaceAll("opc.tcp://", "");
+		System.out.println("OPC UA SERVER_ADDRESS:" + opcuaServerAddress);
+
+		NodeId nodeId1 = new NodeId(rootNodeNamespaceIndex, rootNodeIdentifier);
+		OPCUAConnection conn = new OPCUAConnection(opcuaServerAddress);
+		final OpcUaClient client;
+		client= conn.getConnectedClient();
+		System.out.println("UA Client is: "+client);
+
+		OPCUAInteractions interactions= new OPCUAInteractions();
+
+		Vector<NodeId> nodeAvailable = OPCUAInteractions.browseNodeIds(conn.getConnectedClient(), nodeId1);
+		for(NodeId node: nodeAvailable ){
+
+			try {
+				client.connect().get();
+				//NodeId nodeId = new NodeId(3, "\"Machine Status\".\"Q10 Motor conveyor belt swap\"");
+				// create a subscription @ 1000ms
+				UaSubscription subscription = client.getSubscriptionManager().createSubscription(1000.0).get();
+
+				// subscribe to the Value attribute of the server's CurrentTime node
+				ReadValueId readValueId = new ReadValueId(
+						node,//Identifiers.Server_ServerStatus_CurrentTime,
+						AttributeId.Value.uid(), null, QualifiedName.NULL_VALUE
+				);
+
+				UInteger clientHandle = subscription.getRequestedLifetimeCount();
+				//System.out.println("Client handle number is: "+clientHandle);
+
+				MonitoringParameters parameters = new MonitoringParameters(
+						clientHandle,
+						1000.0,     // sampling interval
+						null,       // filter, null means use default
+						uint(10),   // queue size
+						true        // discard oldest
+				);
+
+				MonitoredItemCreateRequest request = new MonitoredItemCreateRequest(
+						readValueId,
+						MonitoringMode.Reporting,
+						parameters
+				);
+
+				// when creating items in MonitoringMode.Reporting this callback is where each item needs to have its
+				// value/event consumer hooked up. The alternative is to create the item in sampling mode, hook up the
+				// consumer after the creation call completes, and then change the mode for all items to reporting.
+				BiConsumer<UaMonitoredItem, Integer> onItemCreated =
+						(item, id) -> item.setValueConsumer((UaMonitoredItem item1, DataValue value) -> {
+							onSubscriptionValue(item1, value);
+						});
+
+				List<UaMonitoredItem> items = subscription.createMonitoredItems(
+						TimestampsToReturn.Both,
+						newArrayList(request),
+						onItemCreated
+				).get();
+
+				for (UaMonitoredItem item : items) {
+					if (item.getStatusCode().isGood()) {
+						logger.info("item created for nodeId={}", item.getReadValueId().getNodeId());
+					} else {
+						logger.warn(
+								"failed to create item for nodeId={} (status={})",
+								item.getReadValueId().getNodeId(), item.getStatusCode());
+					}
+				}
+				Thread.sleep(1000);
+				//future.complete(client);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+		}*/
+		//---------------END SUBSCRIPTION CODE------------------//
 		
 		//TODO: implement here any custom behavior on application start up
 		//Register services into ServiceRegistry
@@ -258,8 +336,16 @@ public class ProviderApplicationInitListener extends ApplicationInitListener {
 		serviceRegistryRequest.getMetadata().put("http-method", httpMethod.name());
 		return serviceRegistryRequest;
 	}
-
-
+	
+	private String onSubscriptionValue(UaMonitoredItem item, DataValue value) {
+		String nodeVal= item.getReadValueId().getNodeId().getIdentifier().toString()+","+value.getValue().toString()+","+value.getServerTime().getJavaTime();
+		nodevalue.add(nodeVal);
+		System.out.println("globally declared node value is: "+nodevalue);
+		logger.info(
+				"subscription value received: item={}, value={}, timestamp={}, systemtime={}",
+				item.getReadValueId().getNodeId(), value.getValue(), value.getServerTime().getJavaTime(), System.currentTimeMillis());
+		return nodeVal;
+	}
 
 	private void setTokenSecurityFilter() {
 		if(!tokenSecurityFilterEnabled) {
