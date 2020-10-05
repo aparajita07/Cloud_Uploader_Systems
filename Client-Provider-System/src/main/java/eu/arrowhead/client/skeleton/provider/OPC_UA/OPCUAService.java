@@ -27,15 +27,21 @@ public class OPCUAService {
     public OPCUAService() {
     }
 
-    public List<String> read(String ComponentId, OPCUAConnection connection) throws IOException, ParseException {
+    public List<String> read(String ComponentId) throws IOException, ParseException {
         List<String> returnval= new ArrayList<String>();
         JSONReader reader= new JSONReader(ComponentId);
         String definition= reader.getDefinition();
         String nodeIdentifier= "\"Machine Status\""+".\""+definition+"\"";
         NodeId nodeId = new NodeId(3, nodeIdentifier);
-        returnval= OPCUAInteractions.readNode(connection.getConnectedClient(), nodeId);
+        OPCUAConnection connection = new OPCUAConnection("192.168.1.1:4840");
+         try {
+            returnval = OPCUAInteractions.readNode(connection.getConnectedClient(), nodeId);
             connection.dispose();
             return returnval;
+        } catch (Exception ex) {
+            connection.dispose();
+            return returnval;
+        }   
     }
 
     public String write(String ComponentId, String value) throws IOException, ParseException {
