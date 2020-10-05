@@ -2,7 +2,7 @@
   "Factory": "Fischer-Technik",
   "Services":[
     {
-      "ServiceDef": "I1 Push-button slider 1 front",
+      "ServiceDef": "I1_Push-button_LoadingStation",
       "MetaData": {
         "Device": "Sensor",
         "DeviceType": "pushbutton",
@@ -13,7 +13,7 @@
       }
     },
     {
-      "ServiceDef": "I2 Push-button slider 1 rear",
+      "ServiceDef": "I2_Push-button_LoadingStation",
       "MetaData": {
         "Device": "Sensor",
         "DeviceType": "pushbutton",
@@ -24,7 +24,7 @@
       }
     },
     {
-      "ServiceDef": "I3 Push-button slider 2 front",
+      "ServiceDef": "I3_Push-button_OffLoadingStation",
       "MetaData": {
         "Device": "Sensor",
         "DeviceType": "pushbutton",
@@ -35,7 +35,7 @@
       }
     },
     {
-      "ServiceDef": "I4 Push-button slider 2 rear",
+      "ServiceDef": "I4_Push-button_OffLoadingStation",
       "MetaData": {
         "Device": "Sensor",
         "DeviceType": "pushbutton",
@@ -46,7 +46,7 @@
       }
     },
     {
-      "ServiceDef": "I5 Phototransistor slider 1",
+      "ServiceDef": "I5_Phototransistor_LoadingStation",
       "MetaData": {
         "Device": "Sensor",
         "DeviceType": "PhotoTransistor",
@@ -57,7 +57,7 @@
       }
     },
     {
-      "ServiceDef": "I6 Phototransistor milling machine",
+      "ServiceDef": "I6_Phototransistor_MillingStation",
       "MetaData": {
         "Device": "Sensor",
         "DeviceType": "PhotoTransistor",
@@ -68,7 +68,7 @@
       }
     },
     {
-      "ServiceDef": "I7 Phototransistor loading station",
+      "ServiceDef": "I7_Phototransistor_LoadingStation",
       "MetaData": {
         "Device": "Sensor",
         "DeviceType": "PhotoTransistor",
@@ -79,7 +79,7 @@
       }
     },
     {
-      "ServiceDef": "I8 Phototransistor drilling station",
+      "ServiceDef": "I8_Phototransistor_DrillingStation",
       "MetaData": {
         "Device": "Sensor",
         "DeviceType": "PhotoTransistor",
@@ -90,7 +90,7 @@
       }
     },
     {
-      "ServiceDef": "I9 Phototransistor conveyor belt swap",
+      "ServiceDef": "I9_Phototransistor_OffLoadingStation",
       "MetaData": {
         "Device": "Sensor",
         "DeviceType": "PhotoTransistor",
@@ -101,7 +101,7 @@
       }
     },
     {
-      "ServiceDef": "Q1 Motor slider 1 forward",
+      "ServiceDef": "Q1_Motor-Slider_LoadingStation",
       "MetaData": {
         "Device": "Actuator",
         "DeviceType": "Slider",
@@ -112,7 +112,7 @@
       }
     },
     {
-      "ServiceDef": "Q2 Motor slider 1 backward",
+      "ServiceDef": "Q2_Motor-Slider_LoadingStation",
       "MetaData": {
         "Device": "Actuator",
         "DeviceType": "Slider",
@@ -123,7 +123,7 @@
       }
     },
     {
-      "ServiceDef": "Q3 Motor slider 2 forward",
+      "ServiceDef": "Q3_Motor-Slider_OffLoadingStation",
       "MetaData": {
         "Device": "Actuator",
         "DeviceType": "Slider",
@@ -134,7 +134,7 @@
       }
     },
     {
-      "ServiceDef": "Q4 Motor slider 2 backward",
+      "ServiceDef": "Q4_Motor-Slider_OffLoadingStation",
       "MetaData": {
         "Device": "Actuator",
         "DeviceType": "Slider",
@@ -145,7 +145,7 @@
       }
     },
     {
-      "ServiceDef": "Q5 Motor conveyor belt feed",
+      "ServiceDef": "Q5_Motor-Conveyor-Belt_LoadingStation",
       "MetaData": {
         "Device": "Actuator",
         "DeviceType": "ConveyorBelt",
@@ -156,7 +156,7 @@
       }
     },
     {
-      "ServiceDef": "Q6 Motor conveyor belt milling machine",
+      "ServiceDef": "Q6_Motor-Conveyor-Belt_MillingStation",
       "MetaData": {
         "Device": "Actuator",
         "DeviceType": "ConveyorBelt",
@@ -167,7 +167,7 @@
       }
     },
     {
-      "ServiceDef": "Q7 Motor milling machine",
+      "ServiceDef": "Q7_Motor_MillingStation",
       "MetaData": {
         "Device": "Actuator",
         "DeviceType": "Motor",
@@ -178,7 +178,7 @@
       }
     },
     {
-      "ServiceDef": "Q8 Motor conveyor belt drilling machine",
+      "ServiceDef": "Q8_Motor-Conveyor-Belt_DrillingStation",
       "MetaData": {
         "Device": "Actuator",
         "DeviceType": "ConveyorBelt",
@@ -189,7 +189,7 @@
       }
     },
     {
-      "ServiceDef": "Q9 Motor drilling machine",
+      "ServiceDef": "Q9_Motor_DrillingStation",
       "MetaData": {
         "Device": "Actuator",
         "DeviceType": "Motor",
@@ -200,7 +200,7 @@
       }
     },
     {
-      "ServiceDef": "Q10 Motor conveyor belt swap",
+      "ServiceDef": "Q10_Motor-Conveyor-Belt_OffLoadingStation",
       "MetaData": {
         "Device": "Actuator",
         "DeviceType": "ConveyorBelt",
